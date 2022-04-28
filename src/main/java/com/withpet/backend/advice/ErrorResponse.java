@@ -7,6 +7,9 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 오류 응답시 반환될 형식 정의
+ */
 @Getter
 public class ErrorResponse {
 

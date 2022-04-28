@@ -1,13 +1,13 @@
 package com.withpet.backend.service;
 
-import com.withpet.backend.dto.UserPrincipal;
-import com.withpet.backend.entity.User;
-import com.withpet.backend.entity.repository.UserRepository;
+import com.withpet.backend.domain.User;
+import com.withpet.backend.dto.user.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import com.withpet.backend.repository.UserRepository;
 
 import javax.transaction.Transactional;
 
@@ -24,8 +24,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String usrId) throws UsernameNotFoundException {
         // User정보를 DB에서 가져온다
-        User user = userRepository.findByUsrId(usrId)
-                .orElseThrow(() -> new UsernameNotFoundException("해당 이메일로 유저를 찾을 수 없습니다."));
+        User user = userRepository.findBySnsId(usrId);
         return UserPrincipal.create(user);
     }
 }

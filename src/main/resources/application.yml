@@ -1,6 +1,9 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:mysql://localhost:3320/with_pet2?useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3328/withpet15?useSSL=false&serverTimezone=Asia/Seoul
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ''

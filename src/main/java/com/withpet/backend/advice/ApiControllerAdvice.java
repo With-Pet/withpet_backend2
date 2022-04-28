@@ -1,7 +1,7 @@
 package com.withpet.backend.advice;
 
-import com.withpet.backend.dto.ErrorDetail;
-import com.withpet.backend.dto.ErrorResponse;
+import com.withpet.backend.dto.result.ErrorDetail;
+import com.withpet.backend.dto.result.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,27 +22,31 @@ import java.util.stream.StreamSupport;
 
 /**
  * exception을 처리하는 advice class
- * Global Exception ApiController에 만약 핸들러가 있을 경우에는 작동하지 않는다.
+ * Global Exception ApiController 에 만약 핸들러가 있을 경우에는 작동하지 않는다.
  */
 @RestControllerAdvice(basePackages = "com.withpet.controller")  //해당 패키지 하위에 있는 예외를 잡는다.
 //basePackageClasses = ApiController.class 해당 클래스 에서만 작동하게 됨
 public class ApiControllerAdvice {
 
-    //Rest api 이기 때문에 ResponseEntity를 뱉는다.
-    //value 를 통해 내가 어떠한 값을 잡을 것인지
+    /**
+     * Rest api 이기 때문에 ResponseEntity 을 return 한다.
+     * value 를 통해 내가 어떠한 값을 잡을 것인지 설정
+     * @param e : 전체 Exception 정보
+     */
     @ExceptionHandler(value = Exception.class)
-    //예외 발생 시 e애 담긴다.
     public ResponseEntity exception(Exception e){
         System.out.println(e.getClass().getName());
         System.out.println("----------------------");
         System.out.println(e.getLocalizedMessage());
-        System.out.println("----------------------"); // (지금은 모든 예외), body에 error message return
+        System.out.println("----------------------"); // 지금은 모든 예외(error message)가 body에 담긴다.
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getLocalizedMessage());
     }
 
-    //특정 메소드의 예외를 잡고 싶을 경우
-    //MethodArgumentNotValidException 에러일 경우 처리
-    //HttpServletRequest를 통해 현재 request를 가져올 수 있다.
+    /**
+     * 특정 메소드의 예외를 잡고 싶을 경우
+     * HttpServletRequest를 통해 현재 request를 가져올 수 있다.
+     * @param e : 특정 메소드의 예외
+     */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest httpServletRequest){
 
@@ -73,6 +77,10 @@ public class ApiControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
+    /**
+     * argument 에러를 잡고싶을 경우
+     * @param e : Column 제악조건 에러
+     */
     @ExceptionHandler(value = ConstraintViolationException.class)
     public ResponseEntity constraintViolationException(ConstraintViolationException e,HttpServletRequest httpServletRequest){
         //여러가지 에러를 가지고 있음
@@ -105,7 +113,10 @@ public class ApiControllerAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
-    //argument는 잘 맞았으나 validation에서 에러가 나는 경우
+    /**
+     * validation 에러를 잡고싶을 경우
+     * @param e : validation 에러
+     */
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public ResponseEntity missingServletRequestParameterException(MissingServletRequestParameterException e, HttpServletRequest httpServletRequest){
 

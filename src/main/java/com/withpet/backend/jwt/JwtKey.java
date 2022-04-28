@@ -24,7 +24,6 @@ public class JwtKey {
      "key2", "GoodSpringSecurityNiceSpringSecurityGoodSpringSecurityNiceSpringSecurityGoodSpringSecurityNiceSpringSecurityGoodSpringSecurityNiceSpringSecurity",
             "key3", "HelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurityHelloSpringSecurity"
      */
-    //Todo 알고리즘 추가해서
     private static final String[] KID_SET = SECRET_KEY_SET.keySet().toArray(new String[0]);
     private static Random randomIndex = new Random();
 

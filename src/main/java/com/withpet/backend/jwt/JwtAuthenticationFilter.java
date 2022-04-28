@@ -1,6 +1,6 @@
 package com.withpet.backend.jwt;
 
-import com.withpet.backend.dto.UserPrincipal;
+import com.withpet.backend.dto.user.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
