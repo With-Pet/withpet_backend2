@@ -31,10 +31,11 @@ public class ApiControllerAdvice {
     /**
      * Rest api 이기 때문에 ResponseEntity 을 return 한다.
      * value 를 통해 내가 어떠한 값을 잡을 것인지 설정
+     *
      * @param e : 전체 Exception 정보
      */
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity exception(Exception e){
+    public ResponseEntity exception(Exception e) {
         System.out.println(e.getClass().getName());
         System.out.println("----------------------");
         System.out.println(e.getLocalizedMessage());
@@ -45,15 +46,16 @@ public class ApiControllerAdvice {
     /**
      * 특정 메소드의 예외를 잡고 싶을 경우
      * HttpServletRequest를 통해 현재 request를 가져올 수 있다.
+     *
      * @param e : 특정 메소드의 예외
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest httpServletRequest){
+    public ResponseEntity methodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest httpServletRequest) {
 
         List<ErrorDetail> errorList = new ArrayList<>();
 
         BindingResult bindingResult = e.getBindingResult();
-        bindingResult.getAllErrors().forEach(error ->{
+        bindingResult.getAllErrors().forEach(error -> {
             FieldError field = (FieldError) error;
             String fileName = field.getField();
             String message = field.getDefaultMessage();
@@ -79,19 +81,20 @@ public class ApiControllerAdvice {
 
     /**
      * argument 에러를 잡고싶을 경우
+     *
      * @param e : Column 제악조건 에러
      */
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public ResponseEntity constraintViolationException(ConstraintViolationException e,HttpServletRequest httpServletRequest){
+    public ResponseEntity constraintViolationException(ConstraintViolationException e, HttpServletRequest httpServletRequest) {
         //여러가지 에러를 가지고 있음
         List<ErrorDetail> errorList = new ArrayList<>();
 
-        e.getConstraintViolations().forEach(error ->{
+        e.getConstraintViolations().forEach(error -> {
 
             Stream<Path.Node> stream = StreamSupport.stream(error.getPropertyPath().spliterator(), false);
             List<Path.Node> list = stream.collect(Collectors.toList());
 
-            String field = list.get(list.size() -1).getName();
+            String field = list.get(list.size() - 1).getName();
             String message = error.getMessage();
             String invalidValue = error.getInvalidValue().toString();
 
@@ -115,10 +118,11 @@ public class ApiControllerAdvice {
 
     /**
      * validation 에러를 잡고싶을 경우
+     *
      * @param e : validation 에러
      */
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public ResponseEntity missingServletRequestParameterException(MissingServletRequestParameterException e, HttpServletRequest httpServletRequest){
+    public ResponseEntity missingServletRequestParameterException(MissingServletRequestParameterException e, HttpServletRequest httpServletRequest) {
 
         ErrorDetail errorMessage = new ErrorDetail();
         errorMessage.setField(e.getParameterName());

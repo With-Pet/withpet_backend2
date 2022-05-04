@@ -17,7 +17,7 @@ public class RegisterPetRequestDto {
 //    @NotBlank(message = "엑세스 토큰을 입력해주세요")
 //    private String token;
     //Test를 위해 고유번호로 진행
-    @NotBlank(message = "회원 고유번호를 입력해주세요")
+    @NotNull(message = "회원 고유번호를 입력해주세요")
     private Long id;
     @NotBlank(message = "펫 이름을 입력해주세요")
     private String name;

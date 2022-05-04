@@ -1,9 +1,12 @@
 package com.withpet.backend.dto.user;
 
+import com.withpet.backend.domain.Service;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,4 +21,5 @@ public class UserResponseDto {
     private Float x;    //경도
     private Float y;    //위도
     private LocalDateTime createdAt; //유저 생성 일자
+    private List<Service> services;
 }

@@ -2,18 +2,21 @@ package com.withpet.backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "snsId", "name", "provider", "address", "x", "y", "countWalk", "countCaring", "countExperience", "introduction", "token"})
 @Table(name = "user")
-public class User extends CommonDateEntity{
+public class User extends CommonDateEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", length = 10, unique = true)
     private Long id;         //회원 고유번호
 
@@ -75,6 +78,11 @@ public class User extends CommonDateEntity{
     @OneToMany(mappedBy = "user")  //certificate 에있는 user 필드에 의해 매핑이 되어 있다.
     private List<Certificate> certificates = new ArrayList<>();     //회원 소유 자격증
 
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<Service> services = new ArrayList<>();     //회원 이용가능 서비스
+
+
     @Builder
     public User(String name, String password, String snsId, String provider, String address, Float x, Float y, String introduction) {
         this.name = name;
@@ -85,5 +93,6 @@ public class User extends CommonDateEntity{
         this.x = x;
         this.y = y;
         this.introduction = introduction;
+
     }
 }

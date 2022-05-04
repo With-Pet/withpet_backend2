@@ -20,17 +20,20 @@ public class UserService {
 
     /**
      * 유저 프로필 반환
+     *
      * @return
      */
     @Transactional
-    public User getProfile(String aToken) {
-        String snsId = JwtUtils.getUsername(aToken);
-        return userRepository.findBySnsId(snsId);
+    public User getProfile(Long id) throws Exception {
+
+//        String snsId = JwtUtils.getUsername(aToken);
+        return userRepository.findById(id).orElseThrow(Exception::new);
     }
 
     /**
      * 회원 수정
      * 변경감지 적용
+     * Todo 이용 가능 서비스 수정 기능 구
      */
     @Transactional
     public User updateProfile(UpdateUserRequestDto request) {

@@ -1,9 +1,11 @@
 package com.withpet.backend.controller;
 
+import com.withpet.backend.domain.Service;
 import com.withpet.backend.domain.User;
 import com.withpet.backend.dto.result.SingleResult;
 import com.withpet.backend.dto.user.*;
 import com.withpet.backend.jwt.JwtUtils;
+import com.withpet.backend.repository.ServiceRepository;
 import com.withpet.backend.service.ResponseService;
 import com.withpet.backend.service.SignService;
 import io.swagger.annotations.Api;
@@ -20,7 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Api(tags = {"1. Managing User Authentication "})
@@ -43,11 +49,14 @@ public class SignController {
     @Autowired
     private ResponseService responseService;
 
+    @Autowired
+    private ServiceRepository serviceRepository;
+
     ModelMapper modelMapper = new ModelMapper();
 
     /**
      * 1.1 회원가입 api
-     *
+     * <p>
      * Entity 로 받을 시
      * 엔티티에 프레젠테이션 계층을 위한 로직이 추가된다.
      * 엔티티에 API 검증을 위한 로직이 들어간다. (@NotEmpty 등등)
@@ -59,7 +68,7 @@ public class SignController {
     @PostMapping(value = "/Join")
     public SingleResult<UserResponseDto> join(
             @RequestBody @Valid UserRequestDto request
-    )  {
+    ) {
 
         User user = User.builder()
                 .name(request.getName())
@@ -73,8 +82,28 @@ public class SignController {
                 .build();
 
         User registeredUser = userService.saveUser(user);
+        registeredUser.setServices(addService(registeredUser));
 
-        return responseService.getSingleResult(new UserResponseDto(registeredUser.getId(),registeredUser.getName(), registeredUser.getSnsId(), registeredUser.getX(), registeredUser.getY(),registeredUser.getCreatedAt()));
+        return responseService.getSingleResult(new UserResponseDto(registeredUser.getId(), registeredUser.getName(), registeredUser.getSnsId(), registeredUser.getX(), registeredUser.getY(), registeredUser.getCreatedAt(), registeredUser.getServices()));
+    }
+
+    private ArrayList<Service> addService(User user){
+        ArrayList<Service> services = new ArrayList<>();
+        Map<String,Boolean> map1 = new HashMap<>();
+        map1.put("목욕", false);
+        map1.put("마당 보유", false);
+        map1.put("집 앞 픽업", false);
+        map1.put("실내 놀이", false);
+        map1.put("미용", false);
+        map1.put("모발 관리", false);
+        map1.put("노견 케어", false);
+        map1.put("퍼피 케어", false);
+        map1.put("등산", false);
+        map1.put("소독", false);
+        Service service = Service.createService(user,map1);
+        serviceRepository.save(service);
+        services.add(service);
+        return services;
     }
 
     /**
@@ -91,7 +120,7 @@ public class SignController {
     @ApiOperation(value = "1.2 로컬 로그인", notes = "로컬 회원 로그인을 시도한다")
     @PostMapping(value = "/Login")
     public SingleResult<AuthResponseDto> login(@RequestBody @Valid
-                                                       LoginRequestDto loginReq)  {
+                                                       LoginRequestDto loginReq) {
 
         //계정 존재 여부 체크 후 객체 생성, 추후 임시 비밀번호 여부 체크 시 사용
         User user = userService.checkLogIn(loginReq.getSnsId(), loginReq.getPassword());

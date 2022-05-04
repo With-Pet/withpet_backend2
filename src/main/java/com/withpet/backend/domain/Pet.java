@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @ToString(of = {"id", "name", "birth", "type", "kind", "notes", "weight", "isNeutralization", "sex"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "pet")
@@ -20,7 +21,7 @@ public class Pet extends CommonDateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pet_id",length = 10, nullable = false, unique = true)
+    @Column(name = "pet_id", length = 10, nullable = false, unique = true)
     private Long id;    //펫 고유번호
 
     @JsonBackReference

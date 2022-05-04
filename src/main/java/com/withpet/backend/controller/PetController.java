@@ -31,8 +31,6 @@ public class PetController {
     @ApiOperation(value = "내 반려동물 등록", notes = "자신의 반려동물을 등록한다.")
     @PostMapping(value = "/registerPet")
     public SingleResult<RegisterPetResponseDto> registerPet(@RequestBody @Valid RegisterPetRequestDto request) throws Exception {
-        //String snsId = JwtUtils.getUsername(request.getToken());
-        //User user = userRepository.findBySnsId(snsId);
         User user = userRepository.findById(request.getId()).orElseThrow(Exception::new);
         Pet pet = Pet.createPet(user, request.getName(), request.getBirth(),
                 request.getKind(), request.getNotes(), request.getWeight(), request.getIsNeutralization(), request.getSex());
@@ -56,10 +54,7 @@ public class PetController {
     @ApiOperation(value = "전체 반려동물 프로필 반환", notes = "자신의 전체 반려동물 프로필을 반환한다.")
     @GetMapping(value = "/getAllPetProfile")
     public ListResult<Pet> getAllPetProfile(@RequestParam Long id) throws Exception {
-//        String snsId = JwtUtils.getUsername(token);
-//        User user = userRepository.findBySnsId(snsId);
         User user = userRepository.findById(id).orElseThrow(Exception::new);
-
         return responseService.getListResult(user.getPets());
     }
 
@@ -69,7 +64,6 @@ public class PetController {
     @ApiOperation(value = "반려동물 프로필 수정", notes = "반려동물 프로필을 수정한다.")
     @PatchMapping(value = "/UpdatePetProfile")
     public SingleResult<UpdatePetResponseDto> updateUserProfile(@RequestBody @Valid UpdatePetRequestDto request) throws Exception {
-
         Pet updatedPet = petService.updatePetProfile(request);
         return responseService.getSingleResult(new UpdatePetResponseDto(updatedPet.getName()));
     }

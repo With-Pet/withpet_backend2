@@ -8,13 +8,15 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @ToString(of = {"id", "title", "startTime", "endTime", "type", "price", "specifics", "description", "address", "x", "y", "isFavorite"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "post")
 public class Post extends CommonDateEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id", length = 10, nullable = false, unique = true)
     private Long id;    //게시물 고유 번호
 
@@ -66,7 +68,7 @@ public class Post extends CommonDateEntity {
     public static Post createPost(User user, Pet pet, String title,
                                   LocalDateTime startTime, LocalDateTime endTime,
                                   PostType type, Long price, String specifics,
-                                  String description, String address, Float x, Float y){
+                                  String description, String address, Float x, Float y) {
         Post post = new Post();
         post.setUser(user);
         post.setPet(pet);

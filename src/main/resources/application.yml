@@ -12,7 +12,7 @@ spring:
     encoding: UTF-8
   jpa:
     hibernate:
-      ddl-auto: none # create :  Re-create at the time the application runs
+      ddl-auto: create # create :  Re-create at the time the application runs
     properties:
       hibernate:
         #show_sql: true Output from systemout / In a production environment, logs should be taken through a logger

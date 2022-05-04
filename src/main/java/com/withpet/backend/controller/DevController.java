@@ -2,12 +2,14 @@ package com.withpet.backend.controller;
 
 import com.withpet.backend.domain.Pet;
 import com.withpet.backend.domain.Post;
+import com.withpet.backend.domain.Service;
 import com.withpet.backend.domain.User;
 import com.withpet.backend.dto.result.ListResult;
 import com.withpet.backend.dto.result.SingleResult;
 import com.withpet.backend.dto.user.GetUserProfileResponseDto;
 import com.withpet.backend.repository.PetRepository;
 import com.withpet.backend.repository.PostRepository;
+import com.withpet.backend.repository.ServiceRepository;
 import com.withpet.backend.repository.UserRepository;
 import com.withpet.backend.service.ResponseService;
 import io.swagger.annotations.Api;
@@ -30,13 +32,14 @@ public class DevController {
     private final ResponseService responseService;
     private final PetRepository petRepository;
     private final PostRepository postRepository;
+    private final ServiceRepository serviceRepository;
 
     /**
      * 전체 회원 반환 (일부로 Entity 전체 반환)
      */
     @ApiOperation(value = "(DEV)전체 회원 반환", notes = "(DEV)전체 회원을 반환합니다.")
     @GetMapping(value = "/getAllUser")
-    public ListResult<User> getAllUserProfile(){
+    public ListResult<User> getAllUserProfile() {
 
         return responseService.getListResult(userRepository.findAll());
     }
@@ -46,7 +49,7 @@ public class DevController {
      */
     @ApiOperation(value = "(DEV)전체 펫 반환", notes = "(DEV)전체 펫을 반환합니다.")
     @GetMapping(value = "/getAllPet")
-    public ListResult<Pet> getAllPetProfile(){
+    public ListResult<Pet> getAllPetProfile() {
 
         return responseService.getListResult(petRepository.findAll());
     }
@@ -56,8 +59,18 @@ public class DevController {
      */
     @ApiOperation(value = "(DEV)전체 게시물 반환", notes = "(DEV)전체 게시물을 반환합니다.")
     @GetMapping(value = "/getAllPost")
-    public ListResult<Post> getAllPost(){
+    public ListResult<Post> getAllPost() {
 
         return responseService.getListResult(postRepository.findAll());
+    }
+
+    /**
+     * 전체 서비스 반환 (일부로 Entity 전체 반환)
+     */
+    @ApiOperation(value = "(DEV)전체 서비스 반환", notes = "(DEV)전체 서비스를 반환합니다.")
+    @GetMapping(value = "/getAllService")
+    public ListResult<Service> getAllService() {
+
+        return responseService.getListResult(serviceRepository.findAll());
     }
 }

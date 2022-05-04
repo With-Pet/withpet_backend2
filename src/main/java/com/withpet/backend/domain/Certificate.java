@@ -8,7 +8,8 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @ToString(of = {"name", "agency", "date"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "certificate")
@@ -16,7 +17,7 @@ public class Certificate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "certificate_id",length = 10, nullable = false, unique = true)
+    @Column(name = "certificate_id", length = 10, nullable = false, unique = true)
     private Long id;        //자격증 고유번호
 
     @Column(nullable = false, length = 50)
