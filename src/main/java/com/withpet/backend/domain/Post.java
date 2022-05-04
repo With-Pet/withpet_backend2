@@ -1,5 +1,6 @@
 package com.withpet.backend.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.withpet.backend.enumc.PostType;
 import lombok.*;
 
@@ -51,10 +52,12 @@ public class Post extends CommonDateEntity {
     @Column(length = 1, nullable = false)
     private Boolean isFavorite = false;    //즐겨찾기 여부 TRUE : O , FALSE : X default : FALSE
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;  //작성자 정보
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_id")
     private Pet pet;   //펫 정보

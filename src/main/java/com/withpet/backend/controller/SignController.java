@@ -57,7 +57,7 @@ public class SignController {
      */
     @ApiOperation(value = "1.1 회원가입", notes = "회원 가입을 한다.(임시 - 카카오 로그인으로 추후 변경)")
     @PostMapping(value = "/Join")
-    public SingleResult<UserResponseDto> join2(
+    public SingleResult<UserResponseDto> join(
             @RequestBody @Valid UserRequestDto request
     )  {
 
@@ -72,10 +72,9 @@ public class SignController {
                 .introduction(request.getIntroduction())
                 .build();
 
-        //Entity -> Dto 변환
         User registeredUser = userService.saveUser(user);
 
-        return responseService.getSingleResult(new UserResponseDto(registeredUser.getId(),registeredUser.getName()));
+        return responseService.getSingleResult(new UserResponseDto(registeredUser.getId(),registeredUser.getName(), registeredUser.getSnsId(), registeredUser.getX(), registeredUser.getY(),registeredUser.getCreatedAt()));
     }
 
     /**
