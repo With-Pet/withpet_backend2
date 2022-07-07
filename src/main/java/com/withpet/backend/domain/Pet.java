@@ -29,7 +29,7 @@ public class Pet extends CommonDateEntity {
     @JoinColumn(name = "user_id")
     private User owner;     //보호자 정보
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;    //펫 이름
 
     @Column(length = 11, nullable = false)

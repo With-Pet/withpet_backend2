@@ -18,13 +18,13 @@ public class Post extends CommonDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id", length = 10, nullable = false, unique = true)
-    private Long id;    //게시물 고유 번호
+    private Long id;       //게시물 고유 번호
 
     @Column(length = 100, nullable = false)
     private String title;   //게시물 제목
 
     @Column(nullable = false)
-    private LocalDateTime startTime;    //시작 날짜
+    private LocalDateTime startTime;   //시작 날짜
 
     @Column(nullable = false)
     private LocalDateTime endTime;    //종료 날짜
